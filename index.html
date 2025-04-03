@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation Showcase</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .animation-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        h2 {
+            margin-top: 0;
+            color: #4cc9f0;
+        }
+        
+        /* SVG Animation Styles */
+        #svg-animation {
+            width: 100%;
+            height: 300px;
+            overflow: visible;
+        }
+        
+        .gear {
+            transform-origin: center;
+            animation: rotate 8s linear infinite;
+        }
+        
+        .gear.reverse {
+            animation: rotate-reverse 8s linear infinite;
+        }
+        
+        .pulse-circle {
+            transform-origin: center;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes rotate-reverse {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(-360deg); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.2); opacity: 0.9; }
+        }
+        
+        /* CSS Animation Styles */
+        .css-animation-box {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #f72585, #7209b7);
+            border-radius: 10px;
+            margin: 20px auto;
+            position: relative;
+            animation: 
+                bounce 2s ease infinite,
+                colorChange 8s linear infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-50px); }
+        }
+        
+        @keyframes colorChange {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+        
+        /* Canvas Animation Styles */
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        
+        /* Interactive Particles */
+        .particles-container {
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+        }
+        
+        /* Morphing SVG Path */
+        .morph-path {
+            fill: #4cc9f0;
+            transition: d 0.5s ease-in-out;
+        }
+        
+        /* Toggle Button */
+        .toggle-btn {
+            background: #4361ee;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            display: block;
+            margin: 20px auto;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .toggle-btn:hover {
+            background: #3a0ca3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .animation-container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Interactive Animation Showcase</h1>
+    
+    <!-- SVG Animation -->
+    <div class="animation-container">
+        <h2>SVG Gear System</h2>
+        <svg id="svg-animation" viewBox="0 0 500 300">
+            <!-- Big Gear -->
+            <path class="gear" d="M150,150v-60a60,60 0 0,1 30,0v60a60,60 0 0,1 -30,0zm0-60a30,30 0 0,0 -30,30a30,30 0 0,0 30,30a30,30 0 0,0 30-30a30,30 0 0,0 -30-30z" fill="#f72585"/>
+            
+            <!-- Medium Gear -->
+            <path class="gear reverse" d="M350,150v-40a40,40 0 0,1 20,0v40a40,40 0 0,1 -20,0zm0-40a20,20 0 0,0 -20,20a20,20 0 0,0 20,20a20,20 0 0,0 20-20a20,20 0 0,0 -20-20z" fill="#7209b7"/>
+            
+            <!-- Small Gear -->
+            <path class="gear" d="M250,250v-30a30,30 0 0,1 15,0v30a30,30 0 0,1 -15,0zm0-30a15,15 0 0,0 -15,15a15,15 0 0,0 15,15a15,15 0 0,0 15-15a15,15 0 0,0 -15-15z" fill="#4cc9f0"/>
+            
+            <!-- Connecting Lines -->
+            <line x1="150" y1="150" x2="250" y2="250" stroke="#ffffff" stroke-width="3" stroke-dasharray="5,5"/>
+            <line x1="350" y1="150" x2="250" y2="250" stroke="#ffffff" stroke-width="3" stroke-dasharray="5,5"/>
+            
+            <!-- Pulsing Circles -->
+            <circle class="pulse-circle" cx="150" cy="150" r="10" fill="#f72585"/>
+            <circle class="pulse-circle" cx="350" cy="150" r="10" fill="#7209b7" style="animation-delay: 0.5s"/>
+            <circle class="pulse-circle" cx="250" cy="250" r="10" fill="#4cc9f0" style="animation-delay: 1s"/>
+        </svg>
+    </div>
+    
+    <!-- CSS Animation -->
+    <div class="animation-container">
+        <h2>CSS Bouncing Box with Color Shift</h2>
+        <div class="css-animation-box"></div>
+        <p>This animation combines bounce effects with continuous color changes using CSS keyframes and filters.</p>
+    </div>
+    
+    <!-- Canvas Animation -->
+    <div class="animation-container">
+        <h2>Interactive Canvas Particles</h2>
+        <canvas id="particle-canvas" width="500" height="300"></canvas>
+        <p>Move your mouse over the canvas to interact with the particles. Click to add more.</p>
+    </div>
+    
+    <!-- Morphing SVG Path -->
+    <div class="animation-container">
+        <h2>SVG Path Morphing</h2>
+        <svg width="500" height="200" viewBox="0 0 500 200" style="display: block; margin: 0 auto;">
+            <path id="morph-path" class="morph-path" d="M50,100 C100,50 150,150 200,100 C250,50 300,150 350,100 C400,50 450,150 450,100"/>
+        </svg>
+        <button class="toggle-btn" id="morph-btn">Toggle Morph</button>
+    </div>
+    
+    <!-- Interactive Particles -->
+    <div class="animation-container">
+        <h2>Interactive Particle System</h2>
+        <div class="particles-container" id="particles"></div>
+        <p>Move your mouse around to see particles react to your cursor position.</p>
+    </div>
+    
+    <script>
+        // Canvas Particle System
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Adjust canvas size for high DPI displays
+        function resizeCanvas() {
+            const ratio = window.devicePixelRatio || 1;
+            canvas.width = canvas.offsetWidth * ratio;
+            canvas.height = canvas.offsetHeight * ratio;
+            ctx.scale(ratio, ratio);
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        
+        let particles = [];
+        const particleCount = 100;
+        
+        class Particle {
+            constructor() {
+                this.reset();
+                this.size = Math.random() * 5 + 2;
+            }
+            
+            reset() {
+                this.x = Math.random() * canvas.offsetWidth;
+                this.y = Math.random() * canvas.offsetHeight;
+                this.vx = Math.random() * 2 - 1;
+                this.vy = Math.random() * 2 - 1;
+                this.alpha = Math.random() * 0.5 + 0.5;
+                this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            }
+            
+            update(mouse) {
+                // Move particle
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                // Apply mouse repulsion
+                if (mouse.x && mouse.y) {
+                    const dx = mouse.x - this.x;
+                    const dy = mouse.y - this.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 100) {
+                        const force = (100 - distance) / 100;
+                        const angle = Math.atan2(dy, dx);
+                        this.vx -= Math.cos(angle) * force * 0.5;
+                        this.vy -= Math.sin(angle) * force * 0.5;
+                    }
+                }
+                
+                // Apply boundary checks
+                if (this.x < 0 || this.x > canvas.offsetWidth) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.offsetHeight) this.vy *= -1;
+                
+                // Fade in/out effect
+                this.alpha += Math.random() * 0.05 - 0.025;
+                this.alpha = Math.max(0.3, Math.min(1, this.alpha));
+            }
+            
+            draw() {
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        // Initialize particles
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+        
+        // Mouse interaction
+        const mouse = { x: null, y: null };
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
+        });
+        
+        canvas.addEventListener('mouseout', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+        
+        canvas.addEventListener('click', () => {
+            for (let i = 0; i < 10; i++) {
+                particles.push(new Particle());
+            }
+        });
+        
+        // Animation loop
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Update and draw particles
+            particles.forEach(particle => {
+                particle.update(mouse);
+                particle.draw();
+            });
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        
+        // SVG Path Morphing
+        const morphBtn = document.getElementById('morph-btn');
+        const morphPath = document.getElementById('morph-path');
+        let isMorphed = false;
+        
+        morphBtn.addEventListener('click', () => {
+            if (isMorphed) {
+                morphPath.setAttribute('d', 'M50,100 C100,50 150,150 200,100 C250,50 300,150 350,100 C400,50 450,150 450,100');
+            } else {
+                morphPath.setAttribute('d', 'M50,100 C100,150 150,50 200,100 C250,150 300,50 350,100 C400,150 450,50 450,100');
+            }
+            isMorphed = !isMorphed;
+        });
+        
+        // Interactive Particle System
+        const particlesContainer = document.getElementById('particles');
+        const particleElements = [];
+        const particleCount2 = 50;
+        
+        // Create particles
+        for (let i = 0; i < particleCount2; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            // Random size and position
+            const size = Math.random() * 15 + 5;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            
+            // Random color with opacity
+            const hue = Math.random() * 360;
+            particle.style.backgroundColor = `hsla(${hue}, 100%, 70%, 0.7)`;
+            
+            // Random position
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+            
+            // Store velocity
+            particle.vx = Math.random() * 2 - 1;
+            particle.vy = Math.random() * 2 - 1;
+            
+            particlesContainer.appendChild(particle);
+            particleElements.push(particle);
+        }
+        
+        // Mouse interaction for particles
+        let mouseX = 0;
+        let mouseY = 0;
+        let mouseActive = false;
+        
+        particlesContainer.addEventListener('mousemove', (e) => {
+            const rect = particlesContainer.getBoundingClientRect();
+            mouseX = e.clientX - rect.left;
+            mouseY = e.clientY - rect.top;
+            mouseActive = true;
+        });
+        
+        particlesContainer.addEventListener('mouseleave', () => {
+            mouseActive = false;
+        });
+        
+        // Animate particles
+        function updateParticles() {
+            particleElements.forEach(particle => {
+                // Get current position
+                let x = parseFloat(particle.style.left);
+                let y = parseFloat(particle.style.top);
+                
+                // Convert percentage to pixels
+                x = x / 100 * particlesContainer.offsetWidth;
+                y = y / 100 * particlesContainer.offsetHeight;
+                
+                // Update position with velocity
+                x += particle.vx;
+                y += particle.vy;
+                
+                // Boundary check
+                if (x < 0 || x > particlesContainer.offsetWidth) particle.vx *= -1;
+                if (y < 0 || y > particlesContainer.offsetHeight) particle.vy *= -1;
+                
+                // Mouse interaction
+                if (mouseActive) {
+                    const dx = mouseX - x;
+                    const dy = mouseY - y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 150) {
+                        const angle = Math.atan2(dy, dx);
+                        const force = (150 - distance) / 150;
+                        
+                        particle.vx += Math.cos(angle) * force * 2;
+                        particle.vy += Math.sin(angle) * force * 2;
+                    }
+                }
+                
+                particle.vx *= 0.98;
+                particle.vy *= 0.98;
+                
+                particle.style.left = `${x / particlesContainer.offsetWidth * 100}%`;
+                particle.style.top = `${y / particlesContainer.offsetHeight * 100}%`;
+            });
+            
+            requestAnimationFrame(updateParticles);
+        }
+        
+        updateParticles();
+    </script>
+</body>
+</html>
